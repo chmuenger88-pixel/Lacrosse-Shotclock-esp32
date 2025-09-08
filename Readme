@@ -1,12 +1,115 @@
-Lacrosse Shotclock Eigenbau. 
+🥍 Lacrosse Shotclock (Eigenbau)
 
-Läuft auf esp32 mit 433MHz Funkmodul.
-Steuerung über Webserver/Website von esp32. 
-Anzeige auf P10 LED Panel 16x32px zwei Stück pro Anzeige. 
+Dieses Projekt ermöglicht den eigenständigen Bau einer professionellen Shotclock- und Spielzeitanlage für Lacrosse, die über eine intuitive Weboberfläche gesteuert wird. Die Anlage ist modular aufgebaut und kann flexibel für Spiele oder Training eingesetzt werden.
 
-Benötigtes Material:
-ESP32 DevKit 3 Stück
-HC-12 Modul 3 Stück
-LED Panel P10 16x32 4 Stück
-Spannungsversorgung 5V 8A 2 Stück
-Spannungsversorgung 5V 5A 1 Stück
+⚙️ Funktionsweise
+
+Das System besteht aus drei Hauptkomponenten: einem Master-Controller und zwei Anzeigemodulen.
+
+    Master-Controller: Ein ESP32, der über eine integrierte Webseite als zentrale Steuereinheit fungiert.
+
+    Anzeigemodule: Zwei weitere ESP32, die die Befehle des Master-Controllers über Funk empfangen und die Zeiten auf den LED-Panels anzeigen.
+
+Die Kommunikation zwischen den Einheiten erfolgt drahtlos über 433 MHz HC-12 Funkmodule, was eine zuverlässige und latenzarme Übertragung über grosse Distanzen ermöglicht.
+
+📱 Weboberfläche (UI)
+
+Die Steuerung erfolgt vollständig über ein Smartphone, Tablet oder Laptop, das sich mit dem Wi-Fi-Netzwerk des Master-Controllers verbindet.
+
+Hauptfunktionen
+
+    Shotclock: Starten, Stoppen, Zurücksetzen und manuelle Korrektur der Zeit. Die Shotclock zählt von 30 Sekunden rückwärts.
+
+    Spielzeit: Starten, Stoppen, Zurücksetzen, Korrigieren und Weiterschalten zum nächsten Viertel.
+
+    Punktestand: Zähler für Heim- und Gastteam mit der Möglichkeit zur Korrektur.
+
+    Horn: Manuelle Aktivierung des Signals.
+
+Einstellungsmodus (Setup)
+
+Über einen separaten Einstellungsbereich können folgende Parameter konfiguriert werden:
+
+    Dauer der Shotclock (Standard: 30 Sekunden)
+
+    Dauer der Viertel (Standard: 8 Minuten)
+
+    Dauer von kurzen (Viertelpause) und langen (Halbzeitpause) Pausen
+
+    Teamnamen (Heim und Gast)
+
+    Trainingsmodus: Schaltet die Spielzeituhr aus und ersetzt sie durch die aktuelle Uhrzeit, während die Shotclock weiterhin normal funktioniert.
+
+🛠️ Benötigtes Material
+
+Für den Aufbau der vollständigen Anlage werden folgende Komponenten benötigt:
+
+    ESP32 DevKit: 3 Stück (1x Master, 2x Anzeigemodule)
+
+    HC-12 Funkmodul: 3 Stück
+
+    P10 LED-Panel (16x32px): 4 Stück (je 2 pro Anzeigemodul)
+
+    Spannungsversorgung (5V):
+
+        2 x 8A (für die Anzeigemodule)
+
+        1 x 5A (für den Master-Controller)
+
+    Horn (5V): 1 Stück
+
+    Verbindungs- und Kabelmaterial
+
+💻 Software und Installation
+
+Die Software ist mit der Arduino IDE kompatibel und wurde erfolgreich getestet.
+
+    Arduino IDE einrichten: Installieren Sie die Arduino IDE und fügen Sie die ESP32-Board-Unterstützung hinzu.
+
+    Bibliotheken installieren: Fügen Sie die erforderlichen Bibliotheken (FastLED, WiFi, WebServer, HardwareSerial) über den Bibliotheksverwalter hinzu.
+
+    Code kompilieren: Laden Sie den Master-Code auf den Master-ESP32 und den Empfänger-Code auf die beiden anderen ESP32.
+
+    Hardware-Verkabelung: Verbinden Sie die Komponenten gemäss den Schaltplänen.
+
+🚀 Geplante Erweiterungen
+
+Dieses Projekt ist als modulare Plattform konzipiert und kann in Zukunft um nützliche Funktionen erweitert werden, um die Bedienung im Spielbetrieb weiter zu optimieren.
+
+1. Großes Master-Display für Spieler und Zuschauer
+
+Anstelle eines kleinen Displays für den Bediener wird der Master-Controller um ein grosses, gut sichtbares Display erweitert, das die zentralen Spielinformationen für alle sichtbar anzeigt.
+
+    Zweck: Bietet eine dritte, zentrale Anzeigeeinheit, die direkt am Zeitnehmertisch platziert werden kann.
+
+    Anzeige:
+
+        Spielzeit: Aktuelle Minuten und Sekunden in grosser, gut lesbarer Schrift.
+
+        Viertel: Das aktuell laufende Viertel.
+
+        Punktestand: Der aktuelle Spielstand von Heim- und Gastteam mit klaren Teamnamen.
+
+    Hardware: Ein drittes P10 LED-Panel (16x32px), das über denselben ESP32-Master-Controller wie die Weboberfläche betrieben wird. Dadurch wird keine zusätzliche Hardware für die Anzeige benötigt.
+
+2. Funkhandsender und physische Buttons für die Shotclock
+
+Die Steuerung über eine Weboberfläche ist praktisch, aber bei schnellen Spielzügen ist eine physische Steuerung reaktionsschneller und zuverlässiger. Aus diesem Grund ist eine Erweiterung um dedizierte physische Taster geplant.
+
+    Zweck: Schnelles und physisches Bedienen der wichtigsten Shotclock-Funktionen mit robusten Tastern.
+
+    Funktionen:
+
+        Start/Stopp: Pausiert oder startet die Shotclock.
+
+        Reset: Setzt die Zeit sofort auf den voreingestellten Wert zurück. Hierfür ist die Verwendung eines Pilztasters ideal, da er gross und leicht zu bedienen ist und eine klare haptische Rückmeldung gibt.
+
+        Horn: Ein separater Knopf für eine schnelle Hornaktivierung.
+
+    Hardware: Ein weiterer ESP32 (oder ein kleinerer Mikrocontroller wie ein ESP8266) mit einem HC-12 Funkmodul, Pilztastern und Druckknöpfen. Das Gerät würde über eine Batterie betrieben und somit mobil einsetzbar sein.
+
+Mit diesen Erweiterungen wird das System noch benutzerfreundlicher, da es die Vorteile einer flexiblen Weboberfläche mit der direkten Kontrolle physischer Tasten kombiniert und gleichzeitig eine zentrale Anzeige für alle Beteiligten bietet.
+
+🤝 Beiträge
+
+Beiträge zum Projekt sind willkommen! Ob Codeverbesserungen, Bug-Reports oder die Erstellung von Schaltplänen – jeder Beitrag hilft, das Projekt zu optimieren.
