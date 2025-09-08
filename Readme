@@ -1,1 +1,12 @@
+Lacrosse Shotclock Eigenbau. 
 
+Läuft auf esp32 mit 433MHz Funkmodul.
+Steuerung über Webserver/Website von esp32. 
+Anzeige auf P10 LED Panel 16x32px zwei Stück pro Anzeige. 
+
+Benötigtes Material:
+ESP32 DevKit 3 Stück
+HC-12 Modul 3 Stück
+LED Panel P10 16x32 4 Stück
+Spannungsversorgung 5V 8A 2 Stück
+Spannungsversorgung 5V 5A 1 Stück
