@@ -52,8 +52,8 @@ Für den Aufbau der vollständigen Anlage werden folgende Komponenten benötigt:
 
 Die Software ist mit der Arduino IDE kompatibel und wurde erfolgreich getestet.
 
-1.  **Arduino IDE einrichten**: Installieren Sie die Arduino IDE und fügen Sie die ESP32-Board-Unterstützung hinzu. **Achtung: Für den Empfängercode ist zwingend die Board-Version 2.0.2 zu verwenden, damit die DMD32-Bibliothek korrekt funktioniert. Der Master-Code wurde mit Version 3.3.0 getestet.**
-2.  **Bibliotheken installieren**: Fügen Sie die erforderlichen Bibliotheken (**DMD32**, **WiFi**, **WebServer**, **HardwareSerial**) über den Bibliotheksverwalter hinzu. Die Verkabelung der Panels muss exakt gemäss der Anleitung der [DMD32-Bibliothek](https://github.com/Qudor-Engineer/DMD32) erfolgen.
+1.  **Arduino IDE einrichten**: Installieren Sie die Arduino IDE und fügen Sie die ESP32-Board-Unterstützung hinzu.
+2.  **Bibliotheken installieren**: Fügen Sie die erforderlichen Bibliotheken (**WiFi**, **WebServer**, **HardwareSerial**) über den Bibliotheksverwalter hinzu. **DMD32-Fast** muss manuell von Github heruntergeladen werden. DMD Die Verkabelung der Panels muss exakt gemäss der Anleitung der https://github.com/ekapujiw2002/DMD32-Fast erfolgen.
 3.  **Code kompilieren**: Laden Sie den Master-Code auf den Master-ESP32 und den Empfänger-Code auf die beiden anderen ESP32.
 4.  **Hardware-Verkabelung**: Verbinden Sie die Komponenten gemäss den Schaltplänen.
 
