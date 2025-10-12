@@ -1,69 +1,253 @@
-# 🥍 Lacrosse Shotclock (Eigenbau)
+# Lacrosse Shotclock Bern Titans
 
-Dieses Projekt ermöglicht den selbstständigen Bau einer professionellen Shotclock- und Spielzeitanlage für Lacrosse, die über eine intuitive Weboberfläche gesteuert wird. Das System ist modular aufgebaut und kann flexibel für Spiele oder Training eingesetzt werden.
-
----
-
-### ⚙️ Funktionsweise
-
-Das System besteht aus drei Hauptkomponenten: einem **Master-Controller** und zwei **Anzeigemodulen**.
-
-* **Master-Controller**: Ein ESP32 fungiert über eine integrierte Webseite als zentrale Steuereinheit.
-* **Anzeigemodule**: Zwei weitere ESP32 empfangen die Befehle des Master-Controllers per Funk und zeigen die Zeiten auf LED-Panels an.
-
-Die Kommunikation erfolgt drahtlos über **433 MHz HC-12 Funkmodule** für eine zuverlässige und latenzarme Übertragung über weite Distanzen.
+Dieses Projekt ermöglicht den selbstständigen Bau einer professionellen Shotclock- und Spielzeitanlage für Lacrosse, die über eine intuitive Weboberfläche gesteuert wird. Das System ist modular aufgebaut und kann flexibel für Spiele und Training eingesetzt werden.
 
 ---
 
-### 📱 Weboberfläche (UI)
+## Systemübersicht
 
-Die Steuerung erfolgt vollständig über ein Smartphone, Tablet oder Laptop, das sich mit dem Wi-Fi-Netzwerk des Master-Controllers verbindet.
+Das System besteht aus drei Komponenten:
 
-**Hauptfunktionen**
-* **Shotclock**: Starten, Stoppen, Zurücksetzen und manuelle Korrektur der Zeit. Die Shotclock zählt von 30 Sekunden rückwärts.
-* **Spielzeit**: Starten, Stoppen, Zurücksetzen, Korrigieren und Weiterschalten zum nächsten Viertel.
-* **Punktestand**: Zähler für Heim- und Gastteam mit der Möglichkeit zur Korrektur.
-* **Horn**: Manuelle Aktivierung des Signals.
+- **Master-Controller (ESP32)**: Zentrale Steuereinheit mit integrierter Weboberfläche
+- **Anzeigemodule (2x ESP32)**: Empfangen Befehle per Funk und steuern LED-Panels an
+- **HC-12 Funkmodule (433 MHz)**: Drahtlose Kommunikation zwischen Master und Anzeigemodulen
 
-**Einstellungsmodus (Setup)**
-Über einen separaten Einstellungsbereich können folgende Parameter konfiguriert werden:
-* Dauer der Shotclock (Standard: 30 Sekunden)
-* Dauer der Viertel (Standard: 8 Minuten)
-* Dauer von kurzen (Viertelpause) und langen (Halbzeitpause) Pausen
-* Teamnamen (Heim und Gast)
-* Trainingsmodus: Schaltet die Spielzeituhr aus und ersetzt sie durch die aktuelle Uhrzeit, während die Shotclock weiterhin normal funktioniert.
+Die Weboberfläche wird über ein beliebiges Gerät (Smartphone, Tablet, Laptop) im lokalen WLAN des Master-Controllers aufgerufen.
 
 ---
 
-### 🛠️ Benötigtes Material
+## Funktionen
 
-Für den Aufbau der vollständigen Anlage werden folgende Komponenten benötigt:
+### Shotclock
+- Start/Stopp-Kontrolle
+- Automatisches Reset auf konfigurierte Dauer (Standard: 30 Sekunden)
+- Manuelle Zeit-Korrektur (+5s, +1s, -1s, -5s)
+- Konfigurierbar pro Spielmodus (Training, Sixes, Field)
 
-* **ESP32 DevKit**: 3 Stück (1x Master, 2x Anzeigemodule)
-* **HC-12 Funkmodul**: 3 Stück
-* **P10-LED-Panel (32x16px, monochrom, HUB12)**: 4 Stück (je 2 pro Anzeigemodul). **Achtung: Der Empfängercode ist aktuell nur mit diesem spezifischen Panel-Typ kompatibel.**
-* **Spannungsversorgung (5V)**: 2 x 8A (für die Anzeigemodule) und 1 x 5A (für den Master-Controller)
-* **Horn (5V)**: 1 Stück
-* **Verbindungs- und Kabelmaterial**
+### Spielzeit (Game Clock)
+- Viertel-Management (1-4 Viertel konfigurierbar)
+- Automatische Pausen zwischen Vierteln (kurz/lang)
+- Manuelle Zeit-Korrektur im Format mm:ss
+- Weiterschalten zum nächsten Viertel
+- Overtime-Modus bei Gleichstand
+- Spielende automatisch erkannt
+
+### Timeout-System
+- Konfigurierbares Timeout (Standard: 30s für Sixes, 90s für Field)
+- Timeout kann nur gestartet werden, wenn Spieluhr gestoppt ist
+- Automatisches Horn nach Timeout-Ende
+- Manuelles Beenden des Timeouts ohne Horn
+
+### Punktestand
+- Live-Zähler für Heim- und Gastteam
+- Erhöhen/Erniedrigen der Punkte
+- Reset-Funktion
+
+### Hornsignale
+- Automatisches Horn bei Shotclock-Ende
+- Automatisches Horn bei Viertel-Ende
+- Automatisches Horn bei Timeout-Ende
+- Manuelles Horn per Button
+
+### Trainingsmodus
+- Shotclock funktioniert normal
+- Spielzeituhr wird durch aktuelle Uhrzeit ersetzt
+- Ideal für Training ohne formale Spielzeit
 
 ---
 
-### 💻 Software und Installation
+## Spielmodi
 
-Die Software ist mit der Arduino IDE kompatibel und wurde erfolgreich getestet.
+Das System unterstützt vordefinierte Spielmodi mit automatischen Konfigurationen:
 
-1.  **Arduino IDE einrichten**: Installieren Sie die Arduino IDE und fügen Sie die ESP32-Board-Unterstützung hinzu.
-2.  **Bibliotheken installieren**: Fügen Sie die erforderlichen Bibliotheken (**WiFi**, **WebServer**, **HardwareSerial**) über den Bibliotheksverwalter hinzu. **DMD32-Fast** muss manuell von Github heruntergeladen werden. DMD Die Verkabelung der Panels muss exakt gemäss der Anleitung der https://github.com/ekapujiw2002/DMD32-Fast erfolgen.
-3.  **Code kompilieren**: Laden Sie den Master-Code auf den Master-ESP32 und den Empfänger-Code auf die beiden anderen ESP32.
-4.  **Hardware-Verkabelung**: Verbinden Sie die Komponenten gemäss den Schaltplänen.
+### Training
+- Shotclock: 30s
+- Keine Spielzeituhr (aktuelle Uhrzeit wird angezeigt)
+- Keine Pausen oder Viertel
+
+### Sixes
+- Shotclock: 30s
+- Vierteldauer: 8 Minuten
+- Kurze Pause: 2 Minuten
+- Lange Pause: 5 Minuten
+- Anzahl Viertel: 4
+- Overtime-Viertel: 4 Minuten
+- Overtime-Pause: 2 Minuten
+- Timeout-Dauer: 30 Sekunden
+
+### Field
+- Shotclock: 80s
+- Vierteldauer: 15 Minuten
+- Kurze Pause: 2 Minuten
+- Lange Pause: 10 Minuten
+- Anzahl Viertel: 4
+- Overtime-Viertel: 4 Minuten
+- Overtime-Pause: 3 Minuten
+- Timeout-Dauer: 90 Sekunden
+
+### Benutzerdefiniert
+- Alle Parameter frei konfigurierbar
+- Alle Einstellungen werden gespeichert
 
 ---
 
-### 🚀 Geplante Erweiterungen
+## Hardware-Anforderungen
 
-Dieses Projekt ist als modulare Plattform konzipiert und kann in Zukunft um nützliche Funktionen erweitert werden:
+### Komponenten für Master-Controller
+- ESP32 DevKit
+- HC-12 Funkmodul
+- 5V/5A Stromversorgung
+- Horn (5V, z.B. Summer oder Sirene)
+- Optionale physische Buttons für Shotclock (Start/Stopp, Reset)
 
-* **Grosses Master-Display für Spieler und Zuschauer**: Anstelle eines kleinen Displays für den Bediener soll ein weiteres P10-Panel verwendet werden, das die Hauptuhr, die Shotclock, den Spielstand und das Viertel anzeigt. Dadurch wird die Weboberfläche nicht mehr für die Anzeige benötigt.
-* **Funkhandsender und physische Buttons für die Shotclock**: Die Steuerung über eine Weboberfläche ist bei schnellen Spielzügen weniger reaktionsschnell. Es ist daher eine Erweiterung um einen separaten Funkhandsender mit physischen Tasten für die wichtigsten Funktionen (Start/Stopp, Reset und Horn) geplant.
-* **Code für andere Panel-Typen**: Anpassung des Codes, um auch andere LED-Panel-Typen (z. B. RGB oder andere Grössen) zu unterstützen.
-* **Code für Einzel-Panel-Anzeige**: Eine optimierte Version des Empfänger-Codes, die nur ein einzelnes P10-Panel pro Anzeigemodul ansteuert.
+### Komponenten pro Anzeigemodul
+- ESP32 DevKit
+- HC-12 Funkmodul
+- 2x P10 LED-Panel (32x16 Pixel, monochrom, HUB12-Anschluss)
+- 5V/8A Stromversorgung
+- Verkabelung nach DMD32-Fast Dokumentation
+
+**Hinweis**: Der aktuelle Empfängercode ist speziell für P10-Panels kalibriert. Andere Panel-Typen erfordern Anpassungen.
+
+---
+
+## Software-Installation
+
+### Voraussetzungen
+- Arduino IDE (Version 2.0 oder neuer empfohlen)
+- ESP32 Board-Support für Arduino IDE
+
+### Schritt-für-Schritt
+
+1. **Board-Support installieren**
+   - In Arduino IDE: Datei → Voreinstellungen → "https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json" in "Zusätzliche Boardverwalter-URLs" einfügen
+   - Tools → Board → Board-Manager → "esp32" suchen und installieren
+
+2. **Bibliotheken installieren**
+   - Tool → Bibliotheken verwalten
+   - Folgende Bibliotheken installieren:
+     - WiFi (vorinstalliert)
+     - WebServer (vorinstalliert)
+     - LittleFS (für Feedback-Speicherung)
+   - **DMD32-Fast** manuell von https://github.com/ekapujiw2002/DMD32-Fast herunterladen und installieren
+
+3. **Code hochladen**
+   - `shotclock_master_v0_8.ino` auf den Master-ESP32 hochladen
+   - `shotclock_empfaenger_v0_8.ino` auf beide Anzeigemodule hochladen
+
+4. **Konfiguration**
+   - Master-Code: WLAN-SSID und Passwort anpassen (Standard: SSID "Shotclock_Master", Passwort "lacrosse2024")
+   - Delete-Passwort für Feedback anpassen (Standard: "88956")
+
+### Verkabelung
+- Detaillierte Verkabelungsanleitung für die HC-12 Module und P10-Panels finden Sie in der DMD32-Fast Dokumentation
+- Physische Buttons (optional): GPIO5 (Start/Stop) und GPIO4 (Reset)
+- Horn: GPIO13
+
+---
+
+## Weboberfläche
+
+### Hauptseite
+Nach dem Starten des Master-Controllers verbindete Sie sich mit dem WLAN "Shotclock_Master" und öffnen die Webseite unter `http://192.168.4.1/`
+
+**Verfügbare Funktionen:**
+- Shotclock-Steuerung (Start/Stopp, Reset, Korrektur)
+- Horn-Button
+- Spielzeit-Steuerung (Start/Stopp, Reset, Korrektur)
+- Timeout-Management
+- Punktestand
+- Nächstes Viertel
+
+### Setup-Seite
+Erreichbar über "Setup-Seite" Button oder direkt unter `http://192.168.4.1/setup`
+
+**Konfigurierbar:**
+- Spielmodus (Training/Sixes/Field/Benutzerdefiniert)
+- Benutzerdefinierte Zeiten (nur im Benutzerdefiniert-Modus)
+- Anzahl der Viertel
+- Teamnamen
+
+**Zusätzlich:**
+- Feedback & Bugs melden
+- Gespeichertes Feedback lesen und löschen (mit Passwortschutz)
+
+---
+
+## Betrieb
+
+### Normales Spiel (Sixes oder Field)
+1. Wählen Sie den Spielmodus im Setup
+2. Konfigurieren Sie die Teamnamen
+3. Starten Sie das Spiel mit "Start" Button
+4. Die Shotclock läuft automatisch weiter, auch wenn die Spielzeit pausiert
+5. Timeouts können während Pausen gestartet werden
+
+### Training
+1. Wählen Sie "Training" Modus
+2. Starten Sie die Shotclock mit Start/Stop
+3. Die aktuelle Uhrzeit wird angezeigt (keine formale Spielzeit)
+
+### Timeout
+1. Pausieren Sie die Spielzeit (Stop-Button)
+2. Drücken Sie "Timeout" Button während die Spieluhr gestoppt ist
+3. Das Timeout läuft automatisch ab und signalisiert mit Horn
+4. Alternativ: Drücken Sie "Timeout" noch einmal zum manuellen Beenden ohne Horn
+
+---
+
+## Feedback-System
+
+Das System speichert Feedback und Bug-Reports lokal:
+- Über "Feedback & Bugs melden" Button öffnet sich eine Formular-Seite
+- Eingabein werden in `/feedback.txt` auf dem Master-Controller gespeichert
+- Feedback kann unter "Feedback lesen" (mit Passwortschutz zum Löschen) angesehen werden
+
+---
+
+## Fehlerbehebung
+
+### Master-Controller verbindet sich nicht
+- Überprüfen Sie WLAN-SSID und Passwort in der Konfiguration
+- Serien-Monitor prüfen (Baud-Rate: 115200)
+- ESP32 neu starten
+
+### Anzeigemodule zeigen nichts
+- HC-12 Verkabelung überprüfen (RX/TX und Antennen)
+- Serien-Monitor der Module prüfen auf empfangene Befehle
+- Stromversorgung kontrollieren (mindestens 8A für zwei P10-Panels)
+- DMD32-Fast Konfiguration überprüfen
+
+### Shotclock zählt nicht runter
+- Überprüfen Sie, ob die Spielzeit läuft (gelber Text = läuft)
+- Im Training-Modus: Spielzeit ist deaktiviert, aber Shotclock sollte funktionieren
+- Serien-Monitor auf Fehler prüfen
+
+### Horn funktioniert nicht
+- GPIO13 Verkabelung prüfen
+- Horn-Stromversorgung kontrollieren
+- Test mit "Horn" Button im Setup durchführen
+
+---
+
+## Geplante Erweiterungen
+
+- **Grosses Master-Display**: Zusätzliches P10-Panel für Spieler und Zuschauer (Haupt-Anzeige)
+- **Funkhandsender**: Separate Funk-Fernbedienung mit physischen Buttons für schnellere Reaktion
+- **Unterstützung weiterer Panel-Typen**: RGB-Panels und andere Grössen
+- **Einzelpanel-Version**: Optimierter Code für nur ein P10-Panel pro Anzeigemodul
+- **LED-Panel-Editor**: Web-basiertes Tool zum Zeichnen von Grafiken für die LED-Panels
+
+---
+
+## Version
+
+Aktuelle Version: **v0.8.0**
+
+---
+
+## Lizenz und Attribut
+
+Entwickelt für: **Bern Titans Lacrosse**
+
+Basierend auf: DMD32-Fast Library (https://github.com/ekapujiw2002/DMD32-Fast)
