@@ -94,7 +94,7 @@ Das System unterstützt vordefinierte Spielmodi mit automatischen Konfiguratione
 ## Hardware-Anforderungen
 
 ### Komponenten für Master-Controller
-- ESP32 DevKit
+- ESP32 DevKit v1 Wroom32
 - HC-12 Funkmodul
 - 5V/5A Stromversorgung
 - Horn (5V, z.B. Summer oder Sirene)
