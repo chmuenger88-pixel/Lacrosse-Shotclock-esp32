@@ -120,7 +120,6 @@ Das System unterstützt vordefinierte Spielmodi mit automatischen Konfiguratione
 ### Schritt-für-Schritt
 
 1. **Board-Support installieren**
-   - In Arduino IDE: Datei → Voreinstellungen → "https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json" in "Zusätzliche Boardverwalter-URLs" einfügen
    - Tools → Board → Board-Manager → "esp32" suchen und installieren
 
 2. **Bibliotheken installieren**
