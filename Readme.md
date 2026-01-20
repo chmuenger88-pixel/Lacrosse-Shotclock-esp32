@@ -1,3 +1,5 @@
+Achtung die Anlage geht nicht wenn viele Störsignale, bzw. Leute vor Ort sind. Eine Weiterentwicklung ohne 433Mhz ist zurzeit in entwicklung
+
 # Lacrosse Shotclock Bern Titans
 
 Dieses Projekt ermöglicht den selbstständigen Bau einer professionellen Shotclock- und Spielzeitanlage für Lacrosse, die über eine intuitive Weboberfläche gesteuert wird. Das System ist modular aufgebaut und kann flexibel für Spiele und Training eingesetzt werden.
