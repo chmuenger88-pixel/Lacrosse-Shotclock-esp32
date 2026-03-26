@@ -1,254 +1,278 @@
-Achtung die Anlage geht nicht wenn viele Störsignale, bzw. Leute vor Ort sind. Eine Weiterentwicklung ohne 433Mhz ist zurzeit in entwicklung
-
-# Lacrosse Shotclock Bern Titans
-
+Lacrosse Shotclock Bern Titans
 Dieses Projekt ermöglicht den selbstständigen Bau einer professionellen Shotclock- und Spielzeitanlage für Lacrosse, die über eine intuitive Weboberfläche gesteuert wird. Das System ist modular aufgebaut und kann flexibel für Spiele und Training eingesetzt werden.
-
----
-
-## Systemübersicht
-
+Systemübersicht
 Das System besteht aus drei Komponenten:
 
-- **Master-Controller (ESP32)**: Zentrale Steuereinheit mit integrierter Weboberfläche
-- **Anzeigemodule (2x ESP32)**: Empfangen Befehle per Funk und steuern LED-Panels an
-- **HC-12 Funkmodule (433 MHz)**: Drahtlose Kommunikation zwischen Master und Anzeigemodulen
+Web-Master (ESP32): Zentrale Steuereinheit mit integrierter Weboberfläche und eigenem Display für den Zeitnehmer-Tisch
+Send-Master (ESP32): Funk-Brücke. Empfängt Befehle vom Web-Master via UART-Kabel und verteilt sie per ESP-NOW an die Anzeigemodule
+Anzeigemodule (2× ESP32): Empfangen Befehle per ESP-NOW Funk und steuern die LED-Panels an
 
-Die Weboberfläche wird über ein beliebiges Gerät (Smartphone, Tablet, Laptop) im lokalen WLAN des Master-Controllers aufgerufen.
+Die Weboberfläche wird über ein beliebiges Gerät (Smartphone, Tablet, Laptop) im lokalen WLAN des Web-Masters aufgerufen.
+Funktionen
+Shotclock
 
----
+Start/Stopp-Kontrolle
+Automatisches Reset auf konfigurierte Dauer (Standard: 30 Sekunden)
+Manuelle Zeit-Korrektur (+5s, +1s, -1s, -5s)
+Konfigurierbar pro Spielmodus (Training, Sixes, Field)
 
-## Funktionen
+Spielzeit (Game Clock)
 
-### Shotclock
-- Start/Stopp-Kontrolle
-- Automatisches Reset auf konfigurierte Dauer (Standard: 30 Sekunden)
-- Manuelle Zeit-Korrektur (+5s, +1s, -1s, -5s)
-- Konfigurierbar pro Spielmodus (Training, Sixes, Field)
+Viertel-Management (1–4 Viertel konfigurierbar)
+Automatische Pausen zwischen Vierteln (kurz/lang)
+Manuelle Zeit-Korrektur im Format mm:ss
+Weiterschalten zum nächsten Viertel
+Overtime-Modus bei Gleichstand
+Spielende automatisch erkannt
 
-### Spielzeit (Game Clock)
-- Viertel-Management (1-4 Viertel konfigurierbar)
-- Automatische Pausen zwischen Vierteln (kurz/lang)
-- Manuelle Zeit-Korrektur im Format mm:ss
-- Weiterschalten zum nächsten Viertel
-- Overtime-Modus bei Gleichstand
-- Spielende automatisch erkannt
+Timeout-System
 
-### Timeout-System
-- Konfigurierbares Timeout (Standard: 30s für Sixes, 90s für Field)
-- Timeout kann nur gestartet werden, wenn Spieluhr gestoppt ist
-- Automatisches Horn nach Timeout-Ende
-- Manuelles Beenden des Timeouts ohne Horn
+Konfigurierbares Timeout (Standard: 30s für Sixes, 90s für Field)
+Timeout kann nur gestartet werden, wenn Spieluhr gestoppt ist und keine Pause aktiv ist
+Automatisches Horn nach Timeout-Ende
+Manuelles Beenden des Timeouts ohne Horn
 
-### Punktestand
-- Live-Zähler für Heim- und Gastteam
-- Erhöhen/Erniedrigen der Punkte
-- Reset-Funktion
+Punktestand
 
-### Hornsignale
-- Automatisches Horn bei Shotclock-Ende
-- Automatisches Horn bei Viertel-Ende
-- Automatisches Horn bei Timeout-Ende
-- Manuelles Horn per Button
+Live-Zähler für Heim- und Gastteam
+Erhöhen/Erniedrigen der Punkte
+Reset-Funktion
 
-### Trainingsmodus
-- Shotclock funktioniert normal
-- Spielzeituhr wird durch aktuelle Uhrzeit ersetzt
-- Ideal für Training ohne formale Spielzeit
+Hornsignale
 
----
+Automatisches Horn bei Shotclock-Ende
+Automatisches Horn bei Viertel-Ende
+Automatisches Horn bei Timeout-Ende
+Manuelles Horn per Button
+Horn kann über das Admin-Panel deaktiviert werden (z.B. für Hallentraining)
 
-## Spielmodi
+Trainingsmodus
 
+Shotclock funktioniert normal
+Spielzeituhr wird durch aktuelle Uhrzeit ersetzt
+Ideal für Training ohne formale Spielzeit
+
+Spielmodi
 Das System unterstützt vordefinierte Spielmodi mit automatischen Konfigurationen:
+Training
 
-### Training
-- Shotclock: 30s
-- Keine Spielzeituhr (aktuelle Uhrzeit wird angezeigt)
-- Keine Pausen oder Viertel
+Shotclock: 30s
+Keine Spielzeituhr (aktuelle Uhrzeit wird angezeigt)
+Keine Pausen oder Viertel
 
-### Sixes
-- Shotclock: 30s
-- Vierteldauer: 8 Minuten
-- Kurze Pause: 2 Minuten
-- Lange Pause: 5 Minuten
-- Anzahl Viertel: 4
-- Overtime-Viertel: 4 Minuten
-- Overtime-Pause: 2 Minuten
-- Timeout-Dauer: 30 Sekunden
+Sixes
 
-### Field
-- Shotclock: 80s
-- Vierteldauer: 15 Minuten
-- Kurze Pause: 2 Minuten
-- Lange Pause: 10 Minuten
-- Anzahl Viertel: 4
-- Overtime-Viertel: 4 Minuten
-- Overtime-Pause: 3 Minuten
-- Timeout-Dauer: 90 Sekunden
+Shotclock: 30s
+Vierteldauer: 8 Minuten
+Kurze Pause: 2 Minuten
+Lange Pause: 5 Minuten
+Anzahl Viertel: 4
+Overtime-Viertel: 4 Minuten
+Overtime-Pause: 2 Minuten
+Timeout-Dauer: 30 Sekunden
 
-### Benutzerdefiniert
-- Alle Parameter frei konfigurierbar
-- Alle Einstellungen werden gespeichert
+Field
 
----
+Shotclock: 80s
+Vierteldauer: 15 Minuten
+Kurze Pause: 2 Minuten
+Lange Pause: 10 Minuten
+Anzahl Viertel: 4
+Overtime-Viertel: 4 Minuten
+Overtime-Pause: 3 Minuten
+Timeout-Dauer: 90 Sekunden
 
-## Hardware-Anforderungen
+BernOpen
 
-### Komponenten für Master-Controller
-- ESP32 DevKit v1 Wroom32
-- HC-12 Funkmodul
-- 5V/5A Stromversorgung
-- Horn (5V, z.B. Summer oder Sirene)
-- Optionale physische Buttons für Shotclock (Start/Stopp, Reset)
+Drei Submodi: Round Robin (1×20 min), Placement/SF (2×14 min), 3rd/Final (2×20 min)
+Shotclock: 30s
+Timeout-Dauer: 60 Sekunden
+Submode direkt auf der Hauptseite umschaltbar
 
-### Komponenten pro Anzeigemodul
-- ESP32 DevKit
-- HC-12 Funkmodul
-- 2x P10 LED-Panel (32x16 Pixel, monochrom, HUB12-Anschluss)
-- 5V/8A Stromversorgung
-- Verkabelung nach DMD32-Fast Dokumentation
+Benutzerdefiniert
 
-**Hinweis**: Der aktuelle Empfängercode ist speziell für P10-Panels kalibriert. Andere Panel-Typen erfordern Anpassungen.
+Alle Parameter frei konfigurierbar
+Alle Einstellungen werden gespeichert
 
----
+Hardware-Anforderungen
+Komponenten für Web-Master
 
-## Software-Installation
+ESP32 DevKit v1 Wroom32
+2× P10 LED-Panel (32×16 Pixel, monochrom, HUB12-Anschluss) — für den Zeitnehmer-Tisch
+5V/3A Stromversorgung für die Panels (separat vom ESP32)
+Horn an Relais-Ausgang (GPIO 14) — nur als Relais betreiben, kein PWM
+Physische Buttons für Shotclock: GPIO 32 (Start/Stop), GPIO 33 (Reset)
 
-### Voraussetzungen
-- Arduino IDE (Version 2.0 oder neuer empfohlen)
-- ESP32 Board-Support für Arduino IDE
+Komponenten für Send-Master
 
-### Schritt-für-Schritt
+ESP32 DevKit (mit externer Antenne empfohlen)
+UART-Verbindung zum Web-Master (kein Funkmodul nötig)
 
-1. **Board-Support installieren**
-   - Tools → Board → Board-Manager → "esp32" suchen und installieren
+Komponenten pro Anzeigemodul
 
-2. **Bibliotheken installieren**
-   - Tool → Bibliotheken verwalten
-   - Folgende Bibliotheken installieren:
-     - WiFi (vorinstalliert)
-     - WebServer (vorinstalliert)
-     - LittleFS (für Feedback-Speicherung)
-   - **DMD32-Fast** manuell von https://github.com/ekapujiw2002/DMD32-Fast herunterladen und installieren
+ESP32 DevKit (mit externer Antenne empfohlen)
+2× P10 LED-Panel (32×16 Pixel, monochrom, HUB12-Anschluss)
+5V/3A Stromversorgung für die Panels (separat vom ESP32)
+Verkabelung nach DMD32-Fast Dokumentation
 
-3. **Code hochladen**
-   - `shotclock_master_v0_8.ino` auf den Master-ESP32 hochladen
-   - `shotclock_empfaenger_v0_8.ino` auf beide Anzeigemodule hochladen
 
-4. **Konfiguration**
-   - Master-Code: WLAN-SSID und Passwort anpassen (Standard: SSID "Shotclock_Master", Passwort "lacrosse2024")
-   - Delete-Passwort für Feedback anpassen (Standard: "88956")
+Hinweis: Der aktuelle Empfängercode ist speziell für P10-Panels kalibriert. Andere Panel-Typen erfordern Anpassungen. Die Panels werden nie direkt vom ESP32 versorgt.
 
-### Verkabelung
-- Detaillierte Verkabelungsanleitung für die HC-12 Module und P10-Panels finden Sie in der DMD32-Fast Dokumentation
-- Physische Buttons (optional): GPIO5 (Start/Stop) und GPIO4 (Reset)
-- Horn: GPIO13
+Software-Installation
+Voraussetzungen
 
----
+Arduino IDE (Version 2.0 oder neuer empfohlen)
+ESP32 Board-Support für Arduino IDE
 
-## Weboberfläche
+Schritt-für-Schritt
 
-### Hauptseite
-Nach dem Starten des Master-Controllers verbindete Sie sich mit dem WLAN "Shotclock_Master" und öffnen die Webseite unter `http://192.168.4.1/`
+Board-Support installieren
 
-**Verfügbare Funktionen:**
-- Shotclock-Steuerung (Start/Stopp, Reset, Korrektur)
-- Horn-Button
-- Spielzeit-Steuerung (Start/Stopp, Reset, Korrektur)
-- Timeout-Management
-- Punktestand
-- Nächstes Viertel
+Tools → Board → Board-Manager → "esp32" suchen und installieren
 
-### Setup-Seite
-Erreichbar über "Setup-Seite" Button oder direkt unter `http://192.168.4.1/setup`
 
-**Konfigurierbar:**
-- Spielmodus (Training/Sixes/Field/Benutzerdefiniert)
-- Benutzerdefinierte Zeiten (nur im Benutzerdefiniert-Modus)
-- Anzahl der Viertel
-- Teamnamen
+Bibliotheken installieren
 
-**Zusätzlich:**
-- Feedback & Bugs melden
-- Gespeichertes Feedback lesen und löschen (mit Passwortschutz)
+Tools → Bibliotheken verwalten
+Folgende Bibliotheken installieren:
 
----
+WiFi (vorinstalliert)
+WebServer (vorinstalliert)
+LittleFS (für Feedback-Speicherung)
 
-## Betrieb
 
-### Normales Spiel (Sixes oder Field)
-1. Wählen Sie den Spielmodus im Setup
-2. Konfigurieren Sie die Teamnamen
-3. Starten Sie das Spiel mit "Start" Button
-4. Die Shotclock läuft automatisch weiter, auch wenn die Spielzeit pausiert
-5. Timeouts können während Pausen gestartet werden
+DMD32-Fast manuell von https://github.com/ekapujiw2002/DMD32-Fast herunterladen und installieren
 
-### Training
-1. Wählen Sie "Training" Modus
-2. Starten Sie die Shotclock mit Start/Stop
-3. Die aktuelle Uhrzeit wird angezeigt (keine formale Spielzeit)
 
-### Timeout
-1. Pausieren Sie die Spielzeit (Stop-Button)
-2. Drücken Sie "Timeout" Button während die Spieluhr gestoppt ist
-3. Das Timeout läuft automatisch ab und signalisiert mit Horn
-4. Alternativ: Drücken Sie "Timeout" noch einmal zum manuellen Beenden ohne Horn
+Code hochladen
 
----
+web_master_v0_9_6.ino auf den Web-Master ESP32 hochladen
+send_master_v0_9_1.ino auf den Send-Master ESP32 hochladen
+shotclock_empfaenger_v0_9_3.ino auf beide Anzeigemodule hochladen
 
-## Feedback-System
 
+MAC-Adressen eintragen (WICHTIG)
+
+Lade zuerst den Empfänger-Code hoch und öffne den Seriellen Monitor (115200 Baud)
+Die MAC-Adresse jedes Empfängers wird beim Start ausgegeben
+Trage die Adressen im Send-Master-Code ein:
+
+
+
+cpp     uint8_t receiver1MacAddress[] = {0xXX, 0xXX, 0xXX, 0xXX, 0xXX, 0xXX};
+     uint8_t receiver2MacAddress[] = {0xXX, 0xXX, 0xXX, 0xXX, 0xXX, 0xXX};
+
+Konfiguration
+
+WLAN-SSID und Passwort prüfen (Standard: Shotclock_Master / lacrosse2024)
+Delete-Passwort für Feedback (Standard: 88956)
+
+
+
+Verkabelung
+Web-Master ↔ Send-Master (UART)
+Web-MasterSend-MasterTX GPIO 17RX GPIO 16RX GPIO 16TX GPIO 17GNDGND
+
+Beide Module müssen zwingend ein gemeinsames GND haben.
+
+
+Weboberfläche
+Hauptseite
+Nach dem Starten verbinden Sie sich mit dem WLAN Shotclock_Master und öffnen: http://192.168.4.1
+Verfügbare Funktionen:
+
+Shotclock-Steuerung (Start/Stopp, Reset, Korrektur)
+Horn-Button
+Spielzeit-Steuerung (Start/Stopp, Reset, Korrektur)
+Timeout-Management
+Punktestand
+Nächstes Viertel
+
+Setup-Seite
+Erreichbar über "Setup-Seite" Button oder direkt unter http://192.168.4.1/setup
+Konfigurierbar:
+
+Spielmodus (Training/Sixes/Field/BernOpen/Benutzerdefiniert)
+Benutzerdefinierte Zeiten (nur im Benutzerdefiniert-Modus)
+Anzahl der Viertel
+Teamnamen
+
+Zusätzlich:
+
+Feedback & Bugs melden
+Gespeichertes Feedback lesen und löschen (Passwortschutz)
+
+Admin-Panel
+Erreichbar unter http://192.168.4.1/admin (Benutzer: Admin, Passwort: 88956)
+
+Horn aktivieren/deaktivieren (z.B. für Hallentraining)
+Verbundene WLAN-Clients anzeigen
+
+Betrieb
+Normales Spiel (Sixes oder Field)
+
+Wählen Sie den Spielmodus im Setup
+Konfigurieren Sie die Teamnamen
+Starten Sie das Spiel mit "Start" Button
+Timeouts können nur gestartet werden, wenn die Spieluhr gestoppt ist und keine Pause aktiv ist
+
+Training
+
+Wählen Sie "Training" Modus
+Starten Sie die Shotclock mit Start/Stop
+Die aktuelle Uhrzeit wird angezeigt (keine formale Spielzeit)
+
+Timeout
+
+Pausieren Sie die Spielzeit (Stop-Button)
+Drücken Sie "Timeout" Button
+Das Timeout läuft automatisch ab und signalisiert mit Horn
+Alternativ: Drücken Sie "Timeout" noch einmal zum manuellen Beenden ohne Horn
+
+Feedback-System
 Das System speichert Feedback und Bug-Reports lokal:
-- Über "Feedback & Bugs melden" Button öffnet sich eine Formular-Seite
-- Eingabein werden in `/feedback.txt` auf dem Master-Controller gespeichert
-- Feedback kann unter "Feedback lesen" (mit Passwortschutz zum Löschen) angesehen werden
 
----
+Über "Feedback & Bugs melden" Button öffnet sich eine Formular-Seite
+Eingaben werden in /feedback.txt auf dem Web-Master gespeichert
+Feedback kann unter "Feedback lesen" angesehen und mit Passwort gelöscht werden
 
-## Fehlerbehebung
+Fehlerbehebung
+Master-Controller verbindet sich nicht
 
-### Master-Controller verbindet sich nicht
-- Überprüfen Sie WLAN-SSID und Passwort in der Konfiguration
-- Serien-Monitor prüfen (Baud-Rate: 115200)
-- ESP32 neu starten
+WLAN-SSID und Passwort in der Konfiguration prüfen
+Seriellen Monitor prüfen (Baud-Rate: 115200)
+ESP32 neu starten
 
-### Anzeigemodule zeigen nichts
-- HC-12 Verkabelung überprüfen (RX/TX und Antennen)
-- Serien-Monitor der Module prüfen auf empfangene Befehle
-- Stromversorgung kontrollieren (mindestens 8A für zwei P10-Panels)
-- DMD32-Fast Konfiguration überprüfen
+Anzeigemodule zeigen nichts
 
-### Shotclock zählt nicht runter
-- Überprüfen Sie, ob die Spielzeit läuft (gelber Text = läuft)
-- Im Training-Modus: Spielzeit ist deaktiviert, aber Shotclock sollte funktionieren
-- Serien-Monitor auf Fehler prüfen
+ESP-NOW: MAC-Adressen im Send-Master prüfen
+Seriellen Monitor der Module auf empfangene Befehle prüfen
+Stromversorgung kontrollieren (5V/3A pro Panel-Paar, separat vom ESP32)
+DMD32-Fast Konfiguration überprüfen
 
-### Horn funktioniert nicht
-- GPIO13 Verkabelung prüfen
-- Horn-Stromversorgung kontrollieren
-- Test mit "Horn" Button im Setup durchführen
+Shotclock zählt nicht runter
 
----
+Überprüfen Sie, ob die Spielzeit läuft (gelber Text = läuft)
+Im Training-Modus: Spielzeit ist deaktiviert, aber Shotclock sollte funktionieren
+Seriellen Monitor auf Fehler prüfen
 
-## Geplante Erweiterungen
+Horn funktioniert nicht
 
-- **Grosses Master-Display**: Zusätzliches P10-Panel für Spieler und Zuschauer (Haupt-Anzeige)
-- **Funkhandsender**: Separate Funk-Fernbedienung mit physischen Buttons für schnellere Reaktion
-- **Unterstützung weiterer Panel-Typen**: RGB-Panels und andere Grössen
-- **Einzelpanel-Version**: Optimierter Code für nur ein P10-Panel pro Anzeigemodul
-- **LED-Panel-Editor**: Web-basiertes Tool zum Zeichnen von Grafiken für die LED-Panels
+GPIO 14 Verkabelung und Relais prüfen
+Sicherstellen, dass der Pin nicht per PWM/LEDC angesteuert wird – nur Digital HIGH/LOW
+Horn-Status im Admin-Panel prüfen (könnte deaktiviert sein)
+Test mit "Horn" Button auf der Hauptseite
 
----
+Serieller Monitor zeigt Zeichensalat
 
-## Version
+Baud-Rate auf 115200 einstellen
 
-Aktuelle Version: **v0.8.0**
+Geplante Erweiterungen
 
----
+Funkhandsender: Separate Funk-Fernbedienung mit physischen Buttons für schnellere Reaktion
+Unterstützung weiterer Panel-Typen: RGB-Panels und andere Grössen
+Einzelpanel-Version: Optimierter Code für nur ein P10-Panel pro Anzeigemodul
+LED-Panel-Editor: Web-basiertes Tool zum Zeichnen von Grafiken für die LED-Panels
 
-## Lizenz und Attribut
 
-Entwickelt für: **Bern Titans Lacrosse**
-
-Basierend auf: DMD32-Fast Library (https://github.com/ekapujiw2002/DMD32-Fast)
+Version: v0.9.6 · Entwickelt für: Bern Titans Lacrosse · Basis: DMD32-Fast Library (https://github.com/ekapujiw2002/DMD32-Fast)
