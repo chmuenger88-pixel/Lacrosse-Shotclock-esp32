@@ -86,12 +86,6 @@ Das System unterstützt vordefinierte Spielmodi mit automatischen Konfiguratione
 - Overtime-Pause: 3 Minuten
 - Timeout-Dauer: 90 Sekunden
 
-### BernOpen
-- Drei Submodi: Round Robin (1×20 min), Placement/SF (2×14 min), 3rd/Final (2×20 min)
-- Shotclock: 30s
-- Timeout-Dauer: 60 Sekunden
-- Submode direkt auf der Hauptseite umschaltbar
-
 ### Benutzerdefiniert
 - Alle Parameter frei konfigurierbar
 - Alle Einstellungen werden gespeichert
@@ -102,7 +96,7 @@ Das System unterstützt vordefinierte Spielmodi mit automatischen Konfiguratione
 
 - ESP32 DevKit v1 Wroom32
 - 2× P10 LED-Panel (32×16 Pixel, monochrom, HUB12-Anschluss) — für den Zeitnehmer-Tisch
-- 5V/3A Stromversorgung für die Panels (separat vom ESP32)
+- 5V/5A Stromversorgung für die Panels (separat vom ESP32)
 - Horn an Relais-Ausgang (GPIO 14) — **nur als Relais betreiben, kein PWM**
 - Physische Buttons für Shotclock: GPIO 32 (Start/Stop), GPIO 33 (Reset)
 
@@ -115,7 +109,7 @@ Das System unterstützt vordefinierte Spielmodi mit automatischen Konfiguratione
 
 - ESP32 DevKit (mit externer Antenne empfohlen)
 - 2× P10 LED-Panel (32×16 Pixel, monochrom, HUB12-Anschluss)
-- 5V/3A Stromversorgung für die Panels (separat vom ESP32)
+- 5V/5A Stromversorgung für die Panels (separat vom ESP32)
 - Verkabelung nach DMD32-Fast Dokumentation
 
 > **Hinweis:** Der aktuelle Empfängercode ist speziell für P10-Panels kalibriert. Andere Panel-Typen erfordern Anpassungen. Die Panels werden **nie** direkt vom ESP32 versorgt.
@@ -169,13 +163,6 @@ Das System unterstützt vordefinierte Spielmodi mit automatischen Konfiguratione
 | GND | GND |
 
 > Beide Module müssen zwingend ein gemeinsames GND haben.
-
-### DMD32-Fast Pins (alle ESP32)
-- MOSI: GPIO 23
-- SCK: GPIO 18
-- CS/nOE: GPIO 5
-- A: GPIO 4
-- B: GPIO 2
 
 ## Weboberfläche
 
@@ -551,7 +538,6 @@ Geplante Erweiterungen
 Funkhandsender: Separate Funk-Fernbedienung mit physischen Buttons für schnellere Reaktion
 Unterstützung weiterer Panel-Typen: RGB-Panels und andere Grössen
 Einzelpanel-Version: Optimierter Code für nur ein P10-Panel pro Anzeigemodul
-LED-Panel-Editor: Web-basiertes Tool zum Zeichnen von Grafiken für die LED-Panels
 
 
 Version: v0.9.6 · Entwickelt für: Bern Titans Lacrosse · Basis: DMD32-Fast Library (https://github.com/ekapujiw2002/DMD32-Fast)
