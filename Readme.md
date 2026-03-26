@@ -7,8 +7,8 @@ Dieses Projekt ermöglicht den selbstständigen Bau einer professionellen Shotcl
 Das System besteht aus drei Komponenten:
 
 - **Web-Master (ESP32):** Zentrale Steuereinheit mit integrierter Weboberfläche und eigenem Display für den Zeitnehmer-Tisch
-- **Send-Master (ESP32):** Funk-Brücke. Empfängt Befehle vom Web-Master via UART-Kabel und verteilt sie per ESP-NOW an die Anzeigemodule
-- **Anzeigemodule (2× ESP32):** Empfangen Befehle per ESP-NOW Funk und steuern die LED-Panels an
+- **Send-Master (ESP32U):** Funk-Brücke. Empfängt Befehle vom Web-Master via UART-Kabel und verteilt sie per ESP-NOW an die Anzeigemodule
+- **Anzeigemodule (2× ESP32U):** Empfangen Befehle per ESP-NOW Funk und steuern die LED-Panels an
 
 Die Weboberfläche wird über ein beliebiges Gerät (Smartphone, Tablet, Laptop) im lokalen WLAN des Web-Masters aufgerufen.
 
@@ -102,12 +102,12 @@ Das System unterstützt vordefinierte Spielmodi mit automatischen Konfiguratione
 
 ### Komponenten für Send-Master
 
-- ESP32 DevKit (mit externer Antenne empfohlen)
+- ESP32U DevKit (mit externer Antenne empfohlen)
 - UART-Verbindung zum Web-Master (kein Funkmodul nötig)
 
 ### Komponenten pro Anzeigemodul
 
-- ESP32 DevKit (mit externer Antenne empfohlen)
+- ESP32U DevKit (mit externer Antenne empfohlen)
 - 2× P10 LED-Panel (32×16 Pixel, monochrom, HUB12-Anschluss)
 - 5V/5A Stromversorgung für die Panels (separat vom ESP32)
 - Verkabelung nach DMD32-Fast Dokumentation
