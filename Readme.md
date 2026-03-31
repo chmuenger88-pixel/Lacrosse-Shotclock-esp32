@@ -533,11 +533,13 @@ Serieller Monitor zeigt Zeichensalat
 
 Baud-Rate auf 115200 einstellen
 
+
 Geplante Erweiterungen
 
-Funkhandsender: Separate Funk-Fernbedienung mit physischen Buttons für schnellere Reaktion
-Unterstützung weiterer Panel-Typen: RGB-Panels und andere Grössen
-Einzelpanel-Version: Optimierter Code für nur ein P10-Panel pro Anzeigemodul
+- Funkhandsender: Separate Funk-Fernbedienung mit physischen Buttons für schnellere Reaktion
+- Ein zusätzliches Panel beim Master für Anzeige der Strafen
+- Automatisches speichern und laden des letzten Modus beim neustarten
+- Integration von Spielberichtsbogen, automatische Erfassung der Zeit mit Angabe von Torschütze und Assist sowie Strafen
 
 
-Version: v0.9.6 · Entwickelt für: Bern Titans Lacrosse · Basis: DMD32-Fast Library (https://github.com/ekapujiw2002/DMD32-Fast)
+Version: v1.0.0 · Entwickelt für: Bern Titans Lacrosse · Basis: DMD32-Fast Library (https://github.com/ekapujiw2002/DMD32-Fast)
