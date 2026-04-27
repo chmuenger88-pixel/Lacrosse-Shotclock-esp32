@@ -1,6 +1,6 @@
 # Lacrosse Shotclock Bern Titans
 
-Dieses Projekt ermöglicht den selbstständigen Bau einer professionellen Shotclock- und Spielzeitanlage für Lacrosse, die über eine intuitive Weboberfläche gesteuert wird. Das System ist modular aufgebaut und kann flexibel für Spiele und Training eingesetzt werden.
+Dieses Projekt ermöglicht den selbstständigen Bau einer Shotclock- und Spielzeitanlage für Lacrosse, die über eine intuitive Weboberfläche gesteuert wird. Das System kann flexibel für Spiele und Training eingesetzt werden.
 
 ## Systemübersicht
 
